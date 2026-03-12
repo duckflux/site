@@ -7,8 +7,8 @@
     "cloudflareUse": true
   },
   "name": "duckflux-site",
-  "title": "Duckflux website documentation",
-  "description": "Website to documentate duckflux",
+  "title": "Website duckflux package",
+  "description": "Define complex multi-agent pipelines in YAML. Let LLMs do creative work. Let duckflux handle the plumbing.",
   "rootDomain": false,
   "subdomain": "site.duckflux",
   "useSubmodule": true
