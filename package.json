@@ -1,5 +1,5 @@
 {
-  "name": "@embark/duckflux",
+  "name": "@embark/duckflux-site",
   "type": "module",
   "version": "0.1.0",
   "scripts": {
