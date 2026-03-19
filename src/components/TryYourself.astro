@@ -1,0 +1,96 @@
+---
+---
+
+<section id="live-code" class="py-24 relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <!-- Section header -->
+    <div class="reveal text-center mb-12">
+      <p class="font-mono text-duck-500 text-sm font-semibold mb-4 uppercase tracking-widest">Live Action</p>
+      <h2 class="section-heading mb-4">Try <span class="gradient-text">Yourself</span></h2>
+      <p class="section-subheading max-w-2xl mx-auto">
+        Edit, visualize, and experiment with duckflux workflows in real time.
+        Click any node in the diagram to inspect its configuration.
+      </p>
+    </div>
+
+    <!-- Editor embed -->
+    <div class="reveal editor-wrapper">
+      <!-- Browser chrome header -->
+      <div class="editor-chrome">
+        <div class="flex gap-1.5 items-center">
+          <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
+          <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+          <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
+        </div>
+        <div class="editor-url">
+          <span class="text-white/30">https://</span>
+          <span class="text-white/60">editor.duckflux.openvibes.tech</span>
+        </div>
+        <a
+          href="https://editor.duckflux.openvibes.tech"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="ml-auto flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-mono text-duck-500 border border-duck-700/40 hover:bg-duck-500/10 transition-colors"
+        >
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+          Open full screen
+        </a>
+      </div>
+
+      <!-- iframe -->
+      <iframe
+        id="live-code-iframe"
+        src="https://editor.duckflux.openvibes.tech"
+        title="Duckflux Workflow Editor"
+        loading="lazy"
+        allow="clipboard-write"
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+      ></iframe>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .editor-wrapper {
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 215, 0, 0.04);
+  }
+
+  .editor-chrome {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 1rem;
+    background: #13131f;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  .editor-url {
+    flex: 1;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    text-align: center;
+  }
+
+  #live-code-iframe {
+    display: block;
+    width: 100%;
+    height: 620px;
+    border: none;
+    background: #0a0a14;
+  }
+
+  @media (max-width: 768px) {
+    #live-code-iframe {
+      height: 480px;
+    }
+  }
+</style>
