@@ -1,6 +1,7 @@
 ---
 import { Code } from 'astro:components';
 
+
 const participants = [
   {
     type: 'exec',
@@ -169,7 +170,7 @@ const participants = [
               </div>
             </div>
             <p class="text-white/65 leading-relaxed">{p.desc}</p>
-            <a href={`/docs/participants/${p.type}`}
+            <a href="https://docs.duckflux.openvibes.tech/workflows/participant-types/"
                class={`inline-flex items-center gap-2 ${p.color} hover:opacity-80 text-sm font-mono transition-opacity mt-auto`}>
               Full {p.label} reference
               <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -187,6 +188,20 @@ const participants = [
                 <div class="w-2.5 h-2.5 rounded-full bg-green-500/60"></div>
               </div>
               <span class="text-xs font-mono text-white/40 ml-1">example.duck.yaml</span>
+              <a
+                href={`https://editor.duckflux.openvibes.tech/#code=${Buffer.from(p.code, 'utf8').toString('base64')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="ml-auto p-1.5 rounded text-white/30 hover:text-duck-500 hover:bg-surface-hover transition-colors"
+                aria-label="Open in editor"
+                title="Open in editor"
+              >
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+                  <polyline points="15 3 21 3 21 9"/>
+                  <line x1="10" y1="14" x2="21" y2="3"/>
+                </svg>
+              </a>
             </div>
             <Code code={p.code} lang="yaml" theme="one-dark-pro" />
           </div>
