@@ -1,0 +1,174 @@
+---
+import { Code } from 'astro:components';
+
+const DOCS = 'https://docs.duckflux.openvibes.tech';
+
+const cliCode = `# Install globally
+bun add -g duckflux
+
+# Run a workflow
+duckflux run ./pipeline.duck.yaml --input repo=org/app
+
+# Lint before running
+duckflux lint ./pipeline.duck.yaml`;
+
+const serverCode = `# Start the dev server
+duckflux server --trace-dir ./traces --workflow-dir ./workflows
+
+# Open http://localhost:3000`;
+
+const tools = [
+  {
+    id: 'cli',
+    emoji: '⌨️',
+    label: 'CLI',
+    tagline: 'Run, lint & validate',
+    color: 'text-green-400',
+    borderColor: 'border-green-500/30 hover:border-green-500/60',
+    bgColor: 'bg-green-500/10 group-hover:bg-green-500/15',
+    desc: 'Run workflows from the terminal with a single command. Lint for schema and semantic errors. Validate inputs before execution. Supports NATS and Redis event backends for cross-process coordination.',
+    code: cliCode,
+    link: `${DOCS}/runtime/cli/`,
+    linkLabel: 'CLI reference',
+  },
+  {
+    id: 'server',
+    emoji: '🖥️',
+    label: 'Dev Server',
+    tagline: 'Observe & execute',
+    color: 'text-duck-500',
+    borderColor: 'border-duck-700/40 hover:border-duck-500/60',
+    bgColor: 'bg-duck-500/10 group-hover:bg-duck-500/15',
+    desc: 'A GitHub Actions-style web UI for executing and tracing workflows locally. Real-time updates via SSE, auto-generated input forms, step-by-step inspection with collapsible JSON viewers. Dark and light mode.',
+    code: serverCode,
+    screenshot: '/server-detail.png',
+    link: `${DOCS}/tooling/web-server-ui/`,
+    linkLabel: 'Server UI docs',
+  },
+  {
+    id: 'editor',
+    emoji: '🎨',
+    label: 'Visual Editor',
+    tagline: 'Visualize & debug',
+    color: 'text-purple-400',
+    borderColor: 'border-purple-500/30 hover:border-purple-500/60',
+    bgColor: 'bg-purple-500/10 group-hover:bg-purple-500/15',
+    desc: 'A browser-based visual editor for duckflux workflows. Edit YAML on the right, see the flow graph update in real time on the left. Click any node to inspect its configuration. Works offline.',
+    screenshot: '/editor-preview.png',
+    link: 'https://editor.duckflux.openvibes.tech',
+    linkLabel: 'Open editor',
+    iframe: 'https://editor.duckflux.openvibes.tech',
+  },
+];
+---
+
+<section id="tooling" class="py-24 relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <!-- Section header -->
+    <div class="reveal text-center mb-4">
+      <h2 class="section-heading mb-4">Tooling &amp; <span class="gradient-text">Ecosystem</span></h2>
+      <p class="section-subheading max-w-2xl mx-auto">
+        Everything you need to author, run, observe, and debug workflows —
+        from the terminal to the browser.
+      </p>
+    </div>
+
+    <!-- Tool pills -->
+    <div class="reveal grid grid-cols-3 gap-3 max-w-lg mx-auto my-12">
+      {tools.map((t, i) => (
+        <button
+          class={`tool-pill group flex flex-col items-center gap-2 p-4 rounded-xl border ${t.borderColor} ${t.bgColor} transition-all duration-200 hover:scale-105 hover:shadow-card text-center ${i === 0 ? 'ring-2 ring-duck-500' : ''}`}
+          data-target={`tool-detail-${t.id}`}
+        >
+          <span class="text-2xl">{t.emoji}</span>
+          <span class={`font-mono font-bold text-sm ${t.color}`}>{t.label}</span>
+          <span class="text-white/40 text-xs leading-tight">{t.tagline}</span>
+        </button>
+      ))}
+    </div>
+
+    <!-- Detail panels -->
+    {tools.map((t, i) => (
+      <div
+        id={`tool-detail-${t.id}`}
+        class={`tool-detail ${i !== 0 ? 'hidden' : ''} reveal`}
+      >
+        <div class={`grid lg:grid-cols-2 gap-0 rounded-xl border ${t.borderColor} overflow-hidden`}>
+          <!-- Info -->
+          <div class="p-8 bg-surface/50 flex flex-col gap-4">
+            <div class="flex items-center gap-4">
+              <div class={`w-14 h-14 rounded-2xl ${t.bgColor} border ${t.borderColor} flex items-center justify-center text-3xl`}>
+                {t.emoji}
+              </div>
+              <div>
+                <code class={`text-xl font-mono font-bold ${t.color}`}>{t.label}</code>
+                <p class="text-white/50 text-sm">{t.tagline}</p>
+              </div>
+            </div>
+            <p class="text-white/65 leading-relaxed">{t.desc}</p>
+            <a href={t.link}
+               target={t.link.startsWith('http') ? '_blank' : undefined}
+               rel={t.link.startsWith('http') ? 'noopener' : undefined}
+               class={`inline-flex items-center gap-2 ${t.color} hover:opacity-80 text-sm font-mono transition-opacity mt-auto`}>
+              {t.linkLabel}
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Right side: code or screenshot -->
+          <div class="border-l border-surface-border">
+            {t.code ? (
+              <>
+                <div class="flex items-center gap-2 px-4 py-3 border-b border-surface-border bg-surface">
+                  <div class="flex gap-1.5">
+                    <div class="w-2.5 h-2.5 rounded-full bg-red-500/60"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-yellow-500/60"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-green-500/60"></div>
+                  </div>
+                  <span class="text-xs font-mono text-white/40 ml-1">terminal</span>
+                </div>
+                <Code code={t.code} lang="bash" theme="one-dark-pro" />
+              </>
+            ) : null}
+            {t.screenshot && !t.code ? (
+              <>
+                <div class="flex items-center gap-2 px-4 py-3 border-b border-surface-border bg-surface">
+                  <div class="flex gap-1.5">
+                    <div class="w-2.5 h-2.5 rounded-full bg-red-500/60"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-yellow-500/60"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-green-500/60"></div>
+                  </div>
+                  <span class="text-xs font-mono text-white/40 ml-1">{t.label.toLowerCase()}</span>
+                </div>
+                <img src={t.screenshot} alt={`${t.label} preview`} class="w-full h-auto block" loading="lazy" />
+              </>
+            ) : null}
+            {t.screenshot && t.code ? (
+              <img src={t.screenshot} alt={`${t.label} preview`} class="w-full h-auto block border-t border-surface-border" loading="lazy" />
+            ) : null}
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<script>
+  const pills   = document.querySelectorAll('.tool-pill');
+  const details = document.querySelectorAll('.tool-detail');
+
+  pills.forEach((pill, i) => {
+    pill.addEventListener('click', () => {
+      const target = (pill as HTMLElement).dataset.target!;
+
+      pills.forEach(p => p.classList.remove('ring-2', 'ring-duck-500'));
+      pill.classList.add('ring-2', 'ring-duck-500');
+
+      details.forEach(d => d.classList.add('hidden'));
+      document.getElementById(target)?.classList.remove('hidden');
+    });
+  });
+</script>

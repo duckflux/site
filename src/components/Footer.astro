@@ -3,23 +3,32 @@ const DOCS = 'https://docs.duckflux.openvibes.tech';
 const GH   = 'https://github.com/duckflux/spec';
 
 const links = {
-  Docs: [
-    { label: 'Getting started',  href: `${DOCS}/getting-started/your-first-workflow/` },
-    { label: 'Workflows',        href: `${DOCS}/workflows/` },
-    { label: 'Participants',     href: `${DOCS}/workflows/participant-types/` },
-    { label: 'CEL & expressions',href: `${DOCS}/workflows/variables-and-expressions/` },
-    { label: 'Runner CLI',       href: `${DOCS}/runner-cli/` },
-    { label: 'Examples',         href: `${DOCS}/getting-started/a-real-world-example/` },
+  'Getting started': [
+    { label: 'Your first workflow',    href: `${DOCS}/getting-started/your-first-workflow/` },
+    { label: 'Exploring participants', href: `${DOCS}/getting-started/exploring-participants/` },
+    { label: 'A real-world example',   href: `${DOCS}/getting-started/a-real-world-example/` },
   ],
-  Community: [
-    { label: 'GitHub',           href: GH },
-    { label: 'Discussions',      href: `${GH}/discussions` },
-    { label: 'Issues',           href: `${GH}/issues` },
-    { label: 'Changelog',        href: `${GH}/releases` },
+  'Workflows': [
+    { label: 'Participant types',      href: `${DOCS}/workflows/participant-types/` },
+    { label: 'Inputs & outputs',       href: `${DOCS}/workflows/inputs-outputs/` },
+    { label: 'Variables & CEL',        href: `${DOCS}/workflows/variables-and-expressions/` },
+    { label: 'Loops',                  href: `${DOCS}/workflows/loops/` },
+    { label: 'Parallel execution',     href: `${DOCS}/workflows/parallel/` },
+    { label: 'Error handling',         href: `${DOCS}/workflows/error-handling/` },
   ],
-  Packages: [
-    { label: 'npm (duckflux)',   href: 'https://www.npmjs.com/package/duckflux' },
-    { label: 'Docker image',     href: 'https://hub.docker.com/r/yourorg/duckflux' }
+  'Tooling': [
+    { label: 'CLI reference',          href: `${DOCS}/runtime/cli/` },
+    { label: 'Server UI',              href: `${DOCS}/tooling/web-server-ui/` },
+    { label: 'Visual editor',          href: 'https://editor.duckflux.openvibes.tech' },
+    { label: 'Tracing',                href: `${DOCS}/runtime/tracing/` },
+    { label: 'Library API',            href: `${DOCS}/runtime/library/` },
+  ],
+  'Project': [
+    { label: 'Specification',          href: `${GH}/blob/main/SPEC.md` },
+    { label: 'Changelog',              href: `${DOCS}/about/changelog/` },
+    { label: 'Roadmap',                href: `${DOCS}/about/roadmap/` },
+    { label: 'GitHub',                 href: GH },
+    { label: 'Issues',                 href: `${GH}/issues` },
   ],
 };
 ---
@@ -31,10 +40,10 @@ const links = {
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
     <!-- Top section -->
-    <div class="grid lg:grid-cols-5 gap-10 mb-14">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-10 mb-14">
 
       <!-- Brand column -->
-      <div class="lg:col-span-2">
+      <div>
         <div class="flex items-center gap-3 mb-4">
           <img src="/duckflow.png" width="36" height="36" alt="duckflux" class="object-contain" />
           <span class="font-mono font-bold text-xl text-white">
@@ -42,11 +51,10 @@ const links = {
           </span>
         </div>
         <p class="text-white/45 text-sm leading-relaxed max-w-xs mb-6">
-          A declarative YAML DSL for orchestrating multi-agent AI workflows.
+          Declarative YAML DSL for orchestrating workflows.
           Deterministic flow control. Powered by Google CEL.
         </p>
 
-        <!-- Social / badge links -->
         <div class="flex flex-wrap gap-3">
           <a href="https://github.com/duckflux/spec" target="_blank" rel="noopener"
              class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface border border-surface-border text-white/50 hover:text-white hover:border-duck-700/50 text-xs font-mono transition-all">
@@ -54,6 +62,10 @@ const links = {
               <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
             </svg>
             GitHub
+          </a>
+          <a href="https://www.npmjs.com/package/duckflux" target="_blank" rel="noopener"
+             class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface border border-surface-border text-white/50 hover:text-white hover:border-duck-700/50 text-xs font-mono transition-all">
+            npm
           </a>
         </div>
       </div>
@@ -89,12 +101,6 @@ const links = {
         <span title="rubber duck debugging, elevated to workflow engine" class="text-base">🦆</span>
         &amp; a lot of YAML
       </p>
-
-      <div class="flex items-center gap-4 text-white/25 text-xs font-mono">
-        <a href="/privacy" class="hover:text-white/50 transition-colors">Privacy</a>
-        <a href="/terms"   class="hover:text-white/50 transition-colors">Terms</a>
-        <a href="/sitemap.xml" class="hover:text-white/50 transition-colors">Sitemap</a>
-      </div>
     </div>
   </div>
 </footer>

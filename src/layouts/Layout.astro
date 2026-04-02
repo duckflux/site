@@ -50,7 +50,17 @@ const {
   <body>
     <slot />
 
-    <!-- Global Duck Scroll Navigator -->
+    <!-- Swimming duck — left side, follows scroll -->
+    <div id="swim-duck-rail" class="hidden lg:block" aria-hidden="true">
+      <div id="swim-duck-wrapper">
+        <img id="swim-duck-img" src="/duckflow.png" alt="" />
+        <div class="swim-wake swim-w1"></div>
+        <div class="swim-wake swim-w2"></div>
+        <div class="swim-wake swim-w3"></div>
+      </div>
+    </div>
+
+    <!-- Global Duck Scroll Navigator (right side) -->
     <div id="duck-scroll-nav" class="hidden lg:flex">
       <div id="duck-scroll-track">
         <div id="duck-scroll-progress"></div>
@@ -75,7 +85,7 @@ const {
         observer.observe(el);
       });
 
-      // Duck scroll navigator
+      // Duck scroll navigator (right side — progress bar)
       const duckScrollIcon = document.getElementById('duck-scroll-icon');
       const duckScrollProgress = document.getElementById('duck-scroll-progress');
 
@@ -90,6 +100,42 @@ const {
 
       window.addEventListener('scroll', updateDuckNav, { passive: true });
       updateDuckNav();
+
+      // Swimming duck (left side — lerp-based smooth following)
+      const swimWrapper = document.getElementById('swim-duck-wrapper') as HTMLElement | null;
+      const swimRail = document.getElementById('swim-duck-rail') as HTMLElement | null;
+      if (swimWrapper && swimRail) {
+        let swimTarget = 0;
+        let swimCurrent = 0;
+        let swimRaf = 0;
+
+        function swimCalc(): number {
+          const scrollTop = window.scrollY;
+          const docHeight = document.body.scrollHeight - window.innerHeight;
+          return docHeight > 0 ? Math.max(0, Math.min(100, (scrollTop / docHeight) * 100)) : 0;
+        }
+
+        function swimTick() {
+          const diff = swimTarget - swimCurrent;
+          if (Math.abs(diff) < 0.05) {
+            swimCurrent = swimTarget;
+            swimRaf = 0;
+          } else {
+            swimCurrent += diff * 0.06;
+            swimRaf = requestAnimationFrame(swimTick);
+          }
+          swimWrapper.style.top = swimCurrent + '%';
+        }
+
+        function onSwimScroll() {
+          swimTarget = swimCalc();
+          if (!swimRaf) swimRaf = requestAnimationFrame(swimTick);
+        }
+
+        window.addEventListener('scroll', onSwimScroll, { passive: true });
+        swimCurrent = swimTarget = swimCalc();
+        swimWrapper.style.top = swimCurrent + '%';
+      }
     </script>
   </body>
 </html>

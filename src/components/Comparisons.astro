@@ -1,5 +1,5 @@
 ---
-type CellValue = boolean | 'partial' | string;
+type CellValue = string;
 
 interface Tool {
   name: string;
@@ -9,123 +9,44 @@ interface Tool {
 
 interface Feature {
   label: string;
-  desc: string;
   duck: CellValue;
-  temporal: CellValue;
-  langgraph: CellValue;
+  argo: CellValue;
+  gha: CellValue;
   n8n: CellValue;
-  stepfn: CellValue;
+  temporal: CellValue;
+  airflow: CellValue;
 }
 
 const tools: Tool[] = [
-  { name: 'duckflux',        url: '/',                              tagline: 'YAML DSL for agents' },
-  { name: 'Temporal',        url: 'https://temporal.io',            tagline: 'Workflow platform' },
-  { name: 'LangGraph',       url: 'https://langchain-ai.github.io/langgraph/', tagline: 'LLM graph orchestration' },
-  { name: 'n8n',             url: 'https://n8n.io',                 tagline: 'Visual automation' },
-  { name: 'Step Functions',  url: 'https://aws.amazon.com/step-functions/', tagline: 'AWS managed workflows' },
+  { name: 'duckflux',  url: '/',                                              tagline: 'YAML DSL' },
+  { name: 'Argo',      url: 'https://argoproj.github.io/workflows/',          tagline: 'K8s CI/CD' },
+  { name: 'GHA',       url: 'https://github.com/features/actions',            tagline: 'GitHub CI' },
+  { name: 'n8n',       url: 'https://n8n.io',                                 tagline: 'Visual automation' },
+  { name: 'Temporal',  url: 'https://temporal.io',                            tagline: 'Durable workflows' },
+  { name: 'Airflow',   url: 'https://airflow.apache.org',                     tagline: 'Data pipelines' },
 ];
 
 const features: Feature[] = [
-  {
-    label: 'YAML DSL',
-    desc: 'Define workflows in human-readable YAML',
-    duck:     true,
-    temporal: false,
-    langgraph:false,
-    n8n:      false,
-    stepfn:   'partial',
-  },
-  {
-    label: 'Agent-native',
-    desc: 'First-class support for AI agent orchestration',
-    duck:     true,
-    temporal: false,
-    langgraph:true,
-    n8n:      'partial',
-    stepfn:   false,
-  },
-  {
-    label: 'CEL expressions',
-    desc: 'Google CEL for safe, typed condition evaluation',
-    duck:     true,
-    temporal: false,
-    langgraph:false,
-    n8n:      false,
-    stepfn:   false,
-  },
-  {
-    label: 'Multi-runtime',
-    desc: 'Run on multiple language runtimes',
-    duck:     true,
-    temporal: true,
-    langgraph:false,
-    n8n:      false,
-    stepfn:   false,
-  },
-  {
-    label: 'MCP support',
-    desc: 'Native Model Context Protocol integration',
-    duck:     true,
-    temporal: false,
-    langgraph:'partial',
-    n8n:      false,
-    stepfn:   false,
-  },
-  {
-    label: 'Loops',
-    desc: 'Iterate over collections natively',
-    duck:     true,
-    temporal: true,
-    langgraph:true,
-    n8n:      true,
-    stepfn:   true,
-  },
-  {
-    label: 'Parallel steps',
-    desc: 'Fan-out parallel execution',
-    duck:     true,
-    temporal: true,
-    langgraph:true,
-    n8n:      true,
-    stepfn:   true,
-  },
-  {
-    label: 'Event wait',
-    desc: 'Pause execution for external events',
-    duck:     true,
-    temporal: true,
-    langgraph:false,
-    n8n:      'partial',
-    stepfn:   true,
-  },
-  {
-    label: 'Self-hosted',
-    desc: 'Run on your own infrastructure',
-    duck:     true,
-    temporal: true,
-    langgraph:true,
-    n8n:      true,
-    stepfn:   false,
-  },
-  {
-    label: 'Open source',
-    desc: 'Fully open-source license',
-    duck:     true,
-    temporal: true,
-    langgraph:true,
-    n8n:      true,
-    stepfn:   false,
-  },
+  { label: 'Conditional loop', duck: 'native',   argo: 'template recursion', gha: 'unroll',     n8n: 'JS hack',       temporal: 'code',     airflow: 'impossible' },
+  { label: 'Fixed loop',       duck: 'native',   argo: 'native',            gha: '✗',          n8n: 'JS hack',       temporal: 'code',     airflow: '✗' },
+  { label: 'Parallelism',      duck: 'native',   argo: 'native',            gha: 'jobs',       n8n: 'visual',        temporal: 'goroutines',airflow: 'native' },
+  { label: 'Conditional branch',duck: 'native',  argo: 'when',              gha: 'if',         n8n: 'IF node',       temporal: 'code',     airflow: 'BranchOp' },
+  { label: 'Guard (when)',      duck: 'native',   argo: 'when',              gha: 'if per step', n8n: '✗',            temporal: 'code',     airflow: '✗' },
+  { label: 'Events (emit/wait)',duck: 'native',   argo: '✗',                gha: '✗',          n8n: 'webhook',       temporal: 'signals',  airflow: 'sensors' },
+  { label: 'Error handling',    duck: 'onError + retry', argo: 'retryStrategy', gha: 'continue-on-error', n8n: '✗', temporal: 'code',     airflow: '✗' },
+  { label: 'Sub-workflows',    duck: 'native',   argo: 'template ref',      gha: 'reusable',   n8n: 'sub-workflow',  temporal: 'child wf', airflow: 'SubDagOp' },
+  { label: 'Spec is readable', duck: '✓',        argo: 'partially',         gha: 'partially',  n8n: '✗ (JSON)',      temporal: '✗ (code)', airflow: '✗ (Python)' },
+  { label: 'Inline participants',duck: 'native',  argo: '✗',                gha: '✗',          n8n: '✗',             temporal: '✗',        airflow: '✗' },
 ];
 
-function cellValue(v: CellValue) {
-  if (v === true)      return { icon: '✓', cls: 'text-green-400 font-bold' };
-  if (v === false)     return { icon: '✗', cls: 'text-white/20' };
-  if (v === 'partial') return { icon: '◑', cls: 'text-yellow-400' };
-  return                      { icon: v,   cls: 'text-white/50 text-xs' };
+function cellStyle(v: string, isDuck: boolean) {
+  if (isDuck) return 'text-duck-500 font-semibold';
+  if (v === 'native' || v === '✓') return 'text-green-400';
+  if (v === '✗' || v === 'impossible') return 'text-white/20';
+  return 'text-white/45';
 }
 
-const cols: Array<keyof Omit<Feature, 'label' | 'desc'>> = ['duck', 'temporal', 'langgraph', 'n8n', 'stepfn'];
+const cols: Array<keyof Omit<Feature, 'label'>> = ['duck', 'argo', 'gha', 'n8n', 'temporal', 'airflow'];
 ---
 
 <section class="py-24 relative">
@@ -137,23 +58,23 @@ const cols: Array<keyof Omit<Feature, 'label' | 'desc'>> = ['duck', 'temporal', 
     <div class="reveal text-center mb-16">
       <h2 class="section-heading mb-4">How duckflux <span class="gradient-text">Compares</span></h2>
       <p class="section-subheading max-w-2xl mx-auto">
-        An honest comparison with popular workflow orchestration tools.
-        Different tools solve different problems — here's where duckflux fits.
+        The same workflow scenario across tools: a coder implements, a reviewer reviews,
+        if not approved repeat up to 3 times, then deploy.
       </p>
     </div>
 
     <!-- Comparison table -->
     <div class="reveal overflow-x-auto">
-      <table class="w-full border-collapse min-w-[700px]">
+      <table class="w-full border-collapse min-w-[800px]">
         <thead>
           <tr class="border-b border-surface-border">
-            <th class="text-left py-4 px-4 text-white/40 font-mono text-sm font-medium w-48">Feature</th>
+            <th class="text-left py-4 px-4 text-white/40 font-mono text-xs font-medium w-44">Feature</th>
             {tools.map((tool, i) => (
-              <th class={`py-4 px-3 text-center font-mono text-sm ${i === 0 ? 'text-duck-500' : 'text-white/60'}`}>
+              <th class={`py-4 px-3 text-center font-mono text-xs ${i === 0 ? 'text-duck-500' : 'text-white/60'}`}>
                 <a href={tool.url} target={i > 0 ? '_blank' : undefined} rel="noopener"
-                   class={`flex flex-col items-center gap-1 hover:opacity-80 transition-opacity ${i === 0 ? '' : ''}`}>
+                   class="flex flex-col items-center gap-1 hover:opacity-80 transition-opacity">
                   <span class={`font-bold ${i === 0 ? 'text-duck-500' : 'text-white/80'}`}>{tool.name}</span>
-                  <span class="text-white/30 text-xs font-normal">{tool.tagline}</span>
+                  <span class="text-white/30 text-[10px] font-normal">{tool.tagline}</span>
                 </a>
               </th>
             ))}
@@ -162,34 +83,23 @@ const cols: Array<keyof Omit<Feature, 'label' | 'desc'>> = ['duck', 'temporal', 
         <tbody>
           {features.map((feat, fi) => (
             <tr class={`border-b border-surface-border/50 transition-colors hover:bg-surface/30 ${fi % 2 === 0 ? '' : 'bg-surface/10'}`}>
-              <td class="py-3.5 px-4">
-                <div class="font-mono text-sm text-white/80 font-medium">{feat.label}</div>
-                <div class="text-white/35 text-xs mt-0.5">{feat.desc}</div>
+              <td class="py-3 px-4">
+                <span class="font-mono text-xs text-white/70 font-medium">{feat.label}</span>
               </td>
-              {cols.map((col, ci) => {
-                const cell = cellValue(feat[col]);
-                return (
-                  <td class={`py-3.5 px-3 text-center ${ci === 0 ? 'bg-duck-500/5' : ''}`}>
-                    <span class={`text-lg ${cell.cls}`} title={String(feat[col])}>{cell.icon}</span>
-                  </td>
-                );
-              })}
+              {cols.map((col, ci) => (
+                <td class={`py-3 px-3 text-center ${ci === 0 ? 'bg-duck-500/5' : ''}`}>
+                  <span class={`text-xs font-mono ${cellStyle(feat[col], ci === 0)}`}>{feat[col]}</span>
+                </td>
+              ))}
             </tr>
           ))}
         </tbody>
       </table>
     </div>
 
-    <!-- Legend -->
-    <div class="reveal mt-6 flex flex-wrap gap-5 justify-center text-sm text-white/40">
-      <span class="flex items-center gap-2"><span class="text-green-400 font-bold">✓</span> Supported</span>
-      <span class="flex items-center gap-2"><span class="text-white/20">✗</span> Not supported</span>
-      <span class="flex items-center gap-2"><span class="text-yellow-400">◑</span> Partial / plugin required</span>
-    </div>
-
     <!-- Disclaimer -->
-    <p class="reveal mt-4 text-center text-white/25 text-xs font-mono">
-      Comparison based on publicly available documentation. Table reflects capabilities, not quality.
+    <p class="reveal mt-6 text-center text-white/25 text-xs font-mono">
+      Based on publicly available documentation. Table reflects capabilities, not quality.
     </p>
   </div>
 </section>
