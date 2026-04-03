@@ -194,6 +194,22 @@ steps:
       </div>
     </div>
 
+    <!-- Install command -->
+    <div class="reveal delay-300 mt-12 flex justify-center">
+      <div class="install-bar group relative flex items-center gap-3 px-5 py-3 rounded-xl border border-white/10 bg-surface/60 backdrop-blur-sm hover:border-duck-500/40 transition-colors">
+        <span class="text-white/40 text-sm font-mono">$</span>
+        <code class="text-sm font-mono text-white/80 select-all">curl -fsSL https://duckflux.github.io/apt-repo/install.sh | bash</code>
+        <button class="install-copy-btn p-1.5 rounded text-white/30 hover:text-duck-500 hover:bg-surface-hover transition-colors" aria-label="Copy install command">
+          <svg class="w-4 h-4 copy-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+          </svg>
+          <svg class="w-4 h-4 check-icon hidden text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
     <!-- Scroll hint -->
     <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/25 text-xs font-mono animate-bounce">
       <span>scroll</span>
@@ -405,6 +421,22 @@ steps:
     const encoded = btoa(unescape(encodeURIComponent(yaml)));
     editorLink.href = `https://editor.duckflux.openvibes.tech/#code=${encoded}`;
   }
+
+  // Install bar copy button
+  document.querySelectorAll('.install-copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      navigator.clipboard.writeText('curl -fsSL https://duckflux.github.io/apt-repo/install.sh | bash').then(() => {
+        const copyIcon  = btn.querySelector('.copy-icon')!;
+        const checkIcon = btn.querySelector('.check-icon')!;
+        copyIcon.classList.add('hidden');
+        checkIcon.classList.remove('hidden');
+        setTimeout(() => {
+          copyIcon.classList.remove('hidden');
+          checkIcon.classList.add('hidden');
+        }, 2000);
+      });
+    });
+  });
 
   // Copy button
   document.querySelectorAll('.copy-btn').forEach(btn => {
