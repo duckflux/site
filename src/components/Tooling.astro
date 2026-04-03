@@ -7,13 +7,13 @@ const cliCode = `# Install globally
 bun add -g duckflux
 
 # Run a workflow
-duckflux run ./pipeline.duck.yaml --input repo=org/app
+quack run ./pipeline.duck.yaml --input repo=org/app
 
 # Lint before running
-duckflux lint ./pipeline.duck.yaml`;
+quack lint ./pipeline.duck.yaml`;
 
 const serverCode = `# Start the dev server
-duckflux server --trace-dir ./traces --workflow-dir ./workflows
+quack server --trace-dir ./traces --workflow-dir ./workflows
 
 # Open http://localhost:3000`;
 
